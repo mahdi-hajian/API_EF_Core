@@ -16,7 +16,14 @@ namespace API_CoreProject.Controllers
     {
         public Mcontext Ocontext()
         {
-            Mcontext mcontext = new Mcontext();
+            Mcontext mcontext = null;
+            try
+            {
+                mcontext = new Mcontext();
+            }
+            catch (Exception)
+            {
+            }
             return mcontext;
         }
         // GET: api/Companies
@@ -30,16 +37,23 @@ namespace API_CoreProject.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCompany([FromRoute] long id)
         {
-            if (!ModelState.IsValid)
+            Company company = null;
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                company = await Ocontext().Companies.SingleOrDefaultAsync(m => m.ID == id);
+
+                if (company == null)
+                {
+                    return NotFound();
+                }
             }
-
-            var company = await Ocontext().Companies.SingleOrDefaultAsync(m => m.ID == id);
-
-            if (company == null)
+            catch (Exception)
             {
-                return NotFound();
             }
 
             return Ok(company);
@@ -49,30 +63,37 @@ namespace API_CoreProject.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCompany([FromRoute] long id, [FromBody] Company company)
         {
-            Mcontext mcontext = new Mcontext();
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (mcontext.Companies.Where(c => c.ID == id).FirstOrDefault() ==null)
-            {
-                return NotFound();
-            }
-            mcontext.Companies.Where(c => c.ID == id).Load();
-            foreach (var item in mcontext.Companies.Local.ToObservableCollection())
-            {
-                item.Name = company.Name;
-                item.Description = company.Description;
-            }
-
+            Mcontext mcontext = null;
             try
             {
-                await mcontext.SaveChangesAsync();
+                mcontext = new Mcontext();
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (mcontext.Companies.Where(c => c.ID == id).FirstOrDefault() == null)
+                {
+                    return NotFound();
+                }
+                mcontext.Companies.Where(c => c.ID == id).Load();
+                foreach (var item in mcontext.Companies.Local.ToObservableCollection())
+                {
+                    item.Name = company.Name;
+                    item.Description = company.Description;
+                }
+
+                try
+                {
+                    await mcontext.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+
+                }
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception)
             {
-                
             }
 
             return CreatedAtAction("GetCompany", new { id = company.ID }, company);
@@ -82,14 +103,15 @@ namespace API_CoreProject.Controllers
         [HttpPost]
         public async Task<IActionResult> PostCompany([FromBody] Company company)
         {
+            Mcontext mcontext = null;
             try
             {
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
-                Mcontext mcontext = new Mcontext();
-                
+                mcontext = new Mcontext();
+
                 mcontext.Companies.Add(company);
                 await mcontext.SaveChangesAsync();
             }
@@ -104,19 +126,27 @@ namespace API_CoreProject.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompany([FromRoute] long id)
         {
-            if (!ModelState.IsValid)
+            Mcontext mcontext = null;
+            Company company = null;
+            try
             {
-                return BadRequest(ModelState);
-            }
-            Mcontext mcontext = new Mcontext();
-            var company = await mcontext.Companies.Where(c => c.ID == id).SingleOrDefaultAsync();
-            if (company == null)
-            {
-                return NotFound();
-            }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                mcontext = new Mcontext();
+                company = await mcontext.Companies.Where(c => c.ID == id).SingleOrDefaultAsync();
+                if (company == null)
+                {
+                    return NotFound();
+                }
 
-            mcontext.Companies.Remove(company);
-            await mcontext.SaveChangesAsync();
+                mcontext.Companies.Remove(company);
+                await mcontext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+            }
 
             return Ok(company);
         }
