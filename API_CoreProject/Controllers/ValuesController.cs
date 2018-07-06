@@ -1,44 +1,108 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Models;
+using Models.CRUD_Angular;
 
 namespace API_CoreProject.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public string GetAll()
         {
-            return new string[] { "value1", "value2" };
+            
+            
+            return "as";
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public List<Company> Get(int id)
         {
-            return "value";
+            return new List<Company>();
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Company Company)
         {
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]Company Company)
         {
         }
 
+        // PUT api/values/5
+        [HttpPatch("{id}")]
+        public void Patch(int id, [FromBody]Company Company)
+        {
+
+        }
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+
         }
     }
 }
+
+/*
+try
+            {
+                Mcontext mcontext = new Mcontext();
+                List<Company> Companies = new List<Company>()
+                {
+                   new Company
+                   {
+                       Name = "microsoft",
+                       Description = "microsoft company is a american's software company ",
+                       Technologies = new List<Technology>()
+                       {
+                           new Technology
+                           {
+                               Name = "C#",
+                               Description = "a multi programming language that use in windows",
+                           },
+                           new Technology
+                           {
+                               Name = "typeScript",
+                               Description = "a language programming that use in angular"
+
+                           }
+                       }
+                   },
+                   new Company
+                   {
+                       Name = "google",
+                       Description = "google company is a american search company",
+                       Technologies = new List<Technology>()
+                       {
+                           new Technology
+                           {
+                               Name = "angular",
+                               Description = "a language that use in web"
+                           },
+                           new Technology
+                           {
+                               Name = "google search",
+                               Description = "a engine that search item free"
+                           }
+                       }
+                   }
+                };
+                mcontext.Companies.AddRange(Companies);
+                mcontext.SaveChanges();
+            }
+            catch (Exception)
+            {
+            } 
+*/
