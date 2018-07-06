@@ -14,20 +14,16 @@ namespace API_CoreProject.Controllers
     [Route("api/Companies")]
     public class CompaniesController : Controller
     {
-        private readonly Mcontext _context;
-
-        public CompaniesController(Mcontext context)
-        {
-            _context = context;
-        }
-
-        // GET: api/Companies
-        [HttpGet]
-        public string GetCompanies()
+        public Mcontext Ocontext()
         {
             Mcontext mcontext = new Mcontext();
-            var a =mcontext.Companies.ToList();
-            return a[0].Name;
+            return mcontext;
+        }
+        // GET: api/Companies
+        [HttpGet]
+        public IEnumerable<Company> GetCompanies()
+        {
+            return Ocontext().Companies;
         }
 
         // GET: api/Companies/5
@@ -39,7 +35,7 @@ namespace API_CoreProject.Controllers
                 return BadRequest(ModelState);
             }
 
-            var company = await _context.Companies.SingleOrDefaultAsync(m => m.ID == id);
+            var company = await Ocontext().Companies.SingleOrDefaultAsync(m => m.ID == id);
 
             if (company == null)
             {
@@ -53,48 +49,53 @@ namespace API_CoreProject.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCompany([FromRoute] long id, [FromBody] Company company)
         {
+            Mcontext mcontext = new Mcontext();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != company.ID)
+            if (mcontext.Companies.Where(c => c.ID == id).FirstOrDefault() ==null)
             {
-                return BadRequest();
+                return NotFound();
             }
-
-            _context.Entry(company).State = EntityState.Modified;
+            mcontext.Companies.Where(c => c.ID == id).Load();
+            foreach (var item in mcontext.Companies.Local.ToObservableCollection())
+            {
+                item.Name = company.Name;
+                item.Description = company.Description;
+            }
 
             try
             {
-                await _context.SaveChangesAsync();
+                await mcontext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CompanyExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                
             }
 
-            return NoContent();
+            return CreatedAtAction("GetCompany", new { id = company.ID }, company);
         }
 
         // POST: api/Companies
         [HttpPost]
         public async Task<IActionResult> PostCompany([FromBody] Company company)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                Mcontext mcontext = new Mcontext();
+                
+                mcontext.Companies.Add(company);
+                await mcontext.SaveChangesAsync();
             }
-
-            _context.Companies.Add(company);
-            await _context.SaveChangesAsync();
+            catch (Exception)
+            {
+            }
 
             return CreatedAtAction("GetCompany", new { id = company.ID }, company);
         }
@@ -107,22 +108,22 @@ namespace API_CoreProject.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            var company = await _context.Companies.SingleOrDefaultAsync(m => m.ID == id);
+            Mcontext mcontext = new Mcontext();
+            var company = await mcontext.Companies.Where(c => c.ID == id).SingleOrDefaultAsync();
             if (company == null)
             {
                 return NotFound();
             }
 
-            _context.Companies.Remove(company);
-            await _context.SaveChangesAsync();
+            mcontext.Companies.Remove(company);
+            await mcontext.SaveChangesAsync();
 
             return Ok(company);
         }
 
         private bool CompanyExists(long id)
         {
-            return _context.Companies.Any(e => e.ID == id);
+            return Ocontext().Companies.Any(e => e.ID == id);
         }
     }
 }

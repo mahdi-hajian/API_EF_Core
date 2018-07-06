@@ -14,11 +14,11 @@ namespace API_CoreProject.Controllers
     {
         // GET api/values
         [HttpGet]
-        public string GetAll()
+        public IEnumerable<Company> GetCompanies()
         {
-            
-            
-            return "as";
+            Mcontext mcontext = new Mcontext();
+            //var a = mcontext.Companies.ToList();
+            return mcontext.Companies;
         }
 
         // GET api/values/5

@@ -17,7 +17,7 @@ namespace Models.CRUD_Angular
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime FoundedData { get; set; }
-        public ICollection<Technology> Technologies { get; set; }
+        public IList<Technology> Technologies { get; set; }
 
         public Company()
         {
