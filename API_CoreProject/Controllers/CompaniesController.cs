@@ -11,6 +11,7 @@ using System.Threading;
 
 namespace API_CoreProject.Controllers
 {
+    [EnableCors("SiteCorsPolicy")]
     [Route("api/Companies")] 
     public class CompaniesController : Controller
     {
