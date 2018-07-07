@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Models.CRUD_Angular
+namespace API_CoreProject.Models.CRUD_Angular
 {
-    public class Company
+    public class Technology
     {
         [Key()]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -15,13 +15,16 @@ namespace Models.CRUD_Angular
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
+        [Required]
         public string Description { get; set; }
-        public DateTime FoundedData { get; set; }
-        public IList<Technology> Technologies { get; set; }
-
-        public Company()
+        public DateTime Appended { get; set; }
+        public long CompanyID { get; set; }
+        //دلخواه
+        [ForeignKey("CompanyID")]
+        public Company Company { get; set; }
+        public Technology()
         {
-            FoundedData = DateTime.Now;
+            Appended = DateTime.Now;
         }
     }
 }

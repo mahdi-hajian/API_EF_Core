@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using API_CoreProject.Models;
+using API_CoreProject.Models.CRUD_Angular;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Models;
-using Models.CRUD_Angular;
 
 namespace API_CoreProject.Controllers
 {
@@ -21,7 +21,7 @@ namespace API_CoreProject.Controllers
             return mcontext.Companies;
         }
 
-        // GET api/values/5
+        // GET api/values/5 
         [HttpGet("{id}")]
         public List<Company> Get(int id)
         {

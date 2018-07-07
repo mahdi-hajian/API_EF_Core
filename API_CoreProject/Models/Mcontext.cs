@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Models.CRUD_Angular;
+﻿using API_CoreProject.Models.CRUD_Angular;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Models
+namespace API_CoreProject.Models
 {
-    public class Mcontext:DbContext
+    public class Mcontext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

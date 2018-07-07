@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Models;
-using Models.CRUD_Angular;
+using API_CoreProject.Models.CRUD_Angular;
+using API_CoreProject.Models;
+using System.Threading;
 
 namespace API_CoreProject.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/Companies")]
+    [Route("api/Companies")] 
     public class CompaniesController : Controller
     {
         public Mcontext Ocontext()
