@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace API_CoreProject.Controllers
 {
-    [EnableCors("SiteCorsPolicy")]
+    //[EnableCors("SiteCorsPolicy")]
     [Route("api/Companies")] 
     public class CompaniesController : Controller
     {
@@ -38,6 +38,8 @@ namespace API_CoreProject.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCompany([FromRoute] long id)
         {
+            List<Company> mahdi = new List<Company>();
+
             Company company = null;
             try
             {
