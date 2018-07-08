@@ -17,7 +17,7 @@ namespace API_CoreProject.Models.CRUD_Angular
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime FoundedData { get; private set; }
-        public IList<Technology> Technologies { get; set; }
+        private IList<Technology> Technologies { get; set; }
 
         public Company()
         {
@@ -28,6 +28,10 @@ namespace API_CoreProject.Models.CRUD_Angular
             FoundedData = DateTime.Now;
             Name = name;
             Description = description;
+        }
+        public List<Technology> GetTechnologies()
+        {
+            return Technologies.ToList();
         }
     }
 }
