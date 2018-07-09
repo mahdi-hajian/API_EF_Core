@@ -19,7 +19,7 @@ namespace API_CoreProject.Models.CRUD_Angular
         public string Description { get; set; }
         public DateTime Appended { get; set; }
         public long CompanyID { get; set; }
-        //دلخواه
+
         [ForeignKey("CompanyID")]
         public Company Company { get; set; }
         public Technology()

@@ -11,7 +11,7 @@ using System;
 namespace API_CoreProject.Migrations
 {
     [DbContext(typeof(Mcontext))]
-    [Migration("20180707143442_InitModel")]
+    [Migration("20180709080102_InitModel")]
     partial class InitModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,7 +69,7 @@ namespace API_CoreProject.Migrations
             modelBuilder.Entity("API_CoreProject.Models.CRUD_Angular.Technology", b =>
                 {
                     b.HasOne("API_CoreProject.Models.CRUD_Angular.Company", "Company")
-                        .WithMany("Technologies")
+                        .WithMany()
                         .HasForeignKey("CompanyID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
