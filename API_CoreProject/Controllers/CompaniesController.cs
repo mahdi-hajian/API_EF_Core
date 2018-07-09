@@ -15,32 +15,21 @@ namespace API_CoreProject.Controllers
     [Route("api/Companies")] 
     public class CompaniesController : Controller
     {
-        public Mcontext Ocontext()
-        {
-            Mcontext mcontext = null;
-            try
-            {
-                mcontext = new Mcontext();
-            }
-            catch (Exception)
-            {
-            }
-            return mcontext;
-        }
+        private Mcontext mcontext = new Mcontext();
+        private Company company = new Company();
+
         // GET: api/Companies
         [HttpGet]
         public IEnumerable<Company> GetCompanies()
         {
-            return Ocontext().Companies;
+            return mcontext.Companies;
         }
 
         // GET: api/Companies/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCompany([FromRoute] long id)
         {
-            List<Company> mahdi = new List<Company>();
 
-            Company company = null;
             try
             {
                 if (!ModelState.IsValid)
@@ -48,7 +37,7 @@ namespace API_CoreProject.Controllers
                     return BadRequest(ModelState);
                 }
 
-                company = await Ocontext().Companies.SingleOrDefaultAsync(m => m.ID == id);
+                company = await mcontext.Companies.SingleOrDefaultAsync(m => m.ID == id);
 
                 if (company == null)
                 {
@@ -66,10 +55,8 @@ namespace API_CoreProject.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCompany([FromRoute] long id, [FromBody] Company company)
         {
-            Mcontext mcontext = null;
             try
             {
-                mcontext = new Mcontext();
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -106,14 +93,12 @@ namespace API_CoreProject.Controllers
         [HttpPost]
         public async Task<IActionResult> PostCompany([FromBody] Company company)
         {
-            Mcontext mcontext = null;
             try
             {
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
-                mcontext = new Mcontext();
 
                 mcontext.Companies.Add(company);
                 await mcontext.SaveChangesAsync();
@@ -129,15 +114,12 @@ namespace API_CoreProject.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompany([FromRoute] long id)
         {
-            Mcontext mcontext = null;
-            Company company = null;
             try
             {
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
-                mcontext = new Mcontext();
                 company = await mcontext.Companies.Where(c => c.ID == id).SingleOrDefaultAsync();
                 if (company == null)
                 {
@@ -156,7 +138,16 @@ namespace API_CoreProject.Controllers
 
         private bool CompanyExists(long id)
         {
-            return Ocontext().Companies.Any(e => e.ID == id);
+            return mcontext.Companies.Any(e => e.ID == id);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                mcontext.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
