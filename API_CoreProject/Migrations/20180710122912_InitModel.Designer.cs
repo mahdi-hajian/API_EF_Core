@@ -11,8 +11,8 @@ using System;
 namespace API_CoreProject.Migrations
 {
     [DbContext(typeof(Mcontext))]
-    [Migration("20180710114553_Init")]
-    partial class Init
+    [Migration("20180710122912_InitModel")]
+    partial class InitModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
