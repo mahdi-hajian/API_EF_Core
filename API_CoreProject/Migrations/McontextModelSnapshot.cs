@@ -68,7 +68,7 @@ namespace API_CoreProject.Migrations
             modelBuilder.Entity("API_CoreProject.Models.CRUD_Angular.Technology", b =>
                 {
                     b.HasOne("API_CoreProject.Models.CRUD_Angular.Company", "Company")
-                        .WithMany()
+                        .WithMany("Technologies")
                         .HasForeignKey("CompanyID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

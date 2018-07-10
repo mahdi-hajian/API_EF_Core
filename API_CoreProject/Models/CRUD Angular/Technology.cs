@@ -11,18 +11,27 @@ namespace API_CoreProject.Models.CRUD_Angular
     {
         [Key()]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long ID { get; set; }
+        public long ID { get; private set; }
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
-        public DateTime Appended { get; set; }
+        public DateTime Appended { get; private set; }
         public long CompanyID { get; set; }
 
-        [ForeignKey("CompanyID")]
-        public Company Company { get; set; }
+        public Company Company { get;private set; }
         public Technology()
+        {
+            Appended = DateTime.Now;
+        }
+
+        public Company GetCompany()
+        {
+            return Company;
+        }
+
+        public void SetTime()
         {
             Appended = DateTime.Now;
         }

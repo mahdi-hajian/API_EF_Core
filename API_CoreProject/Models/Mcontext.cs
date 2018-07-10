@@ -9,6 +9,7 @@ namespace API_CoreProject.Models
 {
     //Model First
     //Scaffold-DbContext "Server=MAHDI-PC;User ID=sa;Password=1q./;Database=API_Core;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
     public class Mcontext : DbContext
     {
         public Mcontext()

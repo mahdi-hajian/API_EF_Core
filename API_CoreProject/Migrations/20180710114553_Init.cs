@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace API_CoreProject.Migrations
 {
-    public partial class InitModel : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

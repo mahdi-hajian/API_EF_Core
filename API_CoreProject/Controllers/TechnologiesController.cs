@@ -56,12 +56,25 @@ namespace API_CoreProject.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != technology.ID)
+            if (_context.Companies.Where(c => c.ID == technology.CompanyID).FirstOrDefault() == null)
             {
-                return BadRequest();
+                return NotFound();
+            }
+            if (!TechnologyExists(id))
+            {
+                return NotFound();
             }
 
-            _context.Entry(technology).State = EntityState.Modified;
+            await _context.Technologies.Where(c => c.ID == id).LoadAsync();
+
+
+            foreach (var item in _context.Technologies.Local.ToObservableCollection())
+            {
+                item.Name = technology.Name;
+                item.Description = technology.Description;
+                item.CompanyID = technology.CompanyID;
+                item.SetTime();
+            }
 
             try
             {
@@ -79,7 +92,7 @@ namespace API_CoreProject.Controllers
                 }
             }
 
-            return NoContent();
+            return CreatedAtAction("GetTechnology", new { id }, technology);
         }
 
         // POST: api/Technologies

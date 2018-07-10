@@ -17,21 +17,21 @@ namespace API_CoreProject.Models.CRUD_Angular
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime FoundedData { get; private set; }
-        private IList<Technology> Technologies { get; set; }
+        public IList<Technology> Technologies { get;private set; }
 
         public Company()
         {
             FoundedData = DateTime.Now;
         }
-        public Company(string name, string description)
-        {
-            FoundedData = DateTime.Now;
-            Name = name;
-            Description = description;
-        }
+
         public List<Technology> GetTechnologies()
         {
             return Technologies.ToList();
+        }
+
+        public void SetTime()
+        {
+            FoundedData = DateTime.Now;
         }
     }
 }
