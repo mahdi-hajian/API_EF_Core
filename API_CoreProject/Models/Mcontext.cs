@@ -7,11 +7,22 @@ using System.Threading.Tasks;
 
 namespace API_CoreProject.Models
 {
+    //Model First
+    //Scaffold-DbContext "Server=MAHDI-PC;User ID=sa;Password=1q./;Database=API_Core;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
     public class Mcontext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public Mcontext()
         {
-            optionsBuilder.UseSqlServer(@"Server=MAHDI-PC;User ID=sa;Password=1q./;Database=API_Core;Trusted_Connection=True;");
+        }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(@"Server=MAHDI-PC;User ID=sa;Password=1q./;Database=API_Core;Trusted_Connection=True;");
+        //}
+
+        public Mcontext(DbContextOptions<Mcontext> options): base (options)
+        {
+
         }
 
         public DbSet<Company> Companies { get; set; }

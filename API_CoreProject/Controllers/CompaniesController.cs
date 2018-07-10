@@ -15,7 +15,13 @@ namespace API_CoreProject.Controllers
     [Route("api/Companies")] 
     public class CompaniesController : Controller
     {
-        private Mcontext mcontext = new Mcontext();
+        private readonly Mcontext mcontext;
+
+        public CompaniesController (Mcontext context)
+        {
+            mcontext = context;
+        }
+        //private Mcontext mcontext = new Mcontext();
         private Company company = new Company();
 
         // GET: api/Companies

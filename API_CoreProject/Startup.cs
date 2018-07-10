@@ -26,6 +26,9 @@ namespace API_CoreProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = Configuration.GetConnectionString("SampleData");
+            services.AddDbContext<Mcontext>(cfg => cfg.UseSqlServer(connectionString));
+
             //
             // add "ClientDomain": "http://localhost:4200" in appsetting.json for spcefic allow
             // add "ClientDomain": "*" in appsetting.json for all allow
