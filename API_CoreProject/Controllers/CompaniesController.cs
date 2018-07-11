@@ -10,6 +10,7 @@ using API_CoreProject.Models.CRUD_Angular;
 
 namespace API_CoreProject.Controllers
 {
+    //[EnableCors("SiteCorsPolicy")]
     [Produces("application/json")]
     [Route("api/Companies")]
     public class CompaniesController : Controller
@@ -36,7 +37,6 @@ namespace API_CoreProject.Controllers
             {
                 return BadRequest(ModelState);
             }
-
             var company = await _context.Companies.SingleOrDefaultAsync(m => m.ID == id);
 
             if (company == null)
@@ -97,7 +97,7 @@ namespace API_CoreProject.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Companies.Add(company);
+            await _context.Companies.AddAsync(company);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCompany", new { id = company.ID }, company);
