@@ -12,13 +12,19 @@ namespace API_CoreProject.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        private readonly Mcontext mcontext;
+
+        public ValuesController(Mcontext context)
+        {
+            mcontext = context;
+        }
         // GET api/values
         [HttpGet]
-        public IEnumerable<Company> GetCompanies()
+        public List<Technology> GetCompanies()
         {
-            Mcontext mcontext = new Mcontext();
-            //var a = mcontext.Companies.ToList();
-            return mcontext.Companies;
+            var oCountry = mcontext.Companies.Include(x=>x.Technologies).Where(c => c.ID == 1).FirstOrDefault();
+            var a = oCountry.Technologies.ToList();
+            return a;
         }
 
         // GET api/values/5 
