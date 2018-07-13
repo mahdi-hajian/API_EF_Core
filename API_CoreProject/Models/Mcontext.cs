@@ -31,6 +31,11 @@ namespace API_CoreProject.Models
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
+            // seed
+            // وقتی که تیبل خالی باشد شروع میکند سید کردن و باید پارامتر آیدی که آیدنتیتی هم هست هم پاس شود
+            builder.Entity<Company>().HasData(new Company(1, "microsoft", "a good company"));
+
             builder.Entity<Company>().HasIndex(c => c.Name).IsUnique();
             builder.Entity<Company>().Property(c => c.Description).IsRequired();
         }

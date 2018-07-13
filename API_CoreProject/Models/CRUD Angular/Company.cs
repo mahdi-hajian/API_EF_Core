@@ -23,6 +23,12 @@ namespace API_CoreProject.Models.CRUD_Angular
         {
             FoundedData = DateTime.Now;
         }
+        public Company(long id, string name, string description)
+        {
+            ID = id;
+            Name = name;
+            Description = description;
+        }
 
         public List<Technology> GetTechnologies()
         {

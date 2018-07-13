@@ -22,8 +22,15 @@ namespace API_CoreProject.Controllers
         [HttpGet]
         public List<Technology> GetCompanies()
         {
-            var oCountry = mcontext.Companies.Include(x=>x.Technologies).Where(c => c.ID == 1).FirstOrDefault();
-            var a = oCountry.Technologies.ToList();
+            List<Technology> a = new List<Technology>();
+            try
+            {
+                var oCountry = mcontext.Companies.Include(x => x.Technologies).Where(c => c.ID == 1).FirstOrDefault();
+                a = oCountry.Technologies.ToList();
+            }
+            catch (Exception)
+            {
+            }
             return a;
         }
 

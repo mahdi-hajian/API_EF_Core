@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace API_CoreProject.Migrations
 {
@@ -15,9 +14,9 @@ namespace API_CoreProject.Migrations
                 {
                     ID = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
                     Description = table.Column<string>(nullable: false),
-                    FoundedData = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 50, nullable: false)
+                    FoundedData = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,10 +29,10 @@ namespace API_CoreProject.Migrations
                 {
                     ID = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Appended = table.Column<DateTime>(nullable: false),
-                    CompanyID = table.Column<long>(nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
                     Description = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(maxLength: 50, nullable: false)
+                    Appended = table.Column<DateTime>(nullable: false),
+                    CompanyID = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,6 +44,11 @@ namespace API_CoreProject.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Companies",
+                columns: new[] { "ID", "Description", "FoundedData", "Name" },
+                values: new object[] { 1L, "a good company", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "microsoft" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Companies_Name",

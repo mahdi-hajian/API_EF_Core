@@ -29,11 +29,20 @@ namespace API_CoreProject
             var connectionString = Configuration.GetConnectionString("SampleData");
             services.AddDbContext<Mcontext>(cfg => cfg.UseSqlServer(connectionString));
 
-            //
-            // add "ClientDomain": "http://localhost:4200" in appsetting.json for spcefic allow
-            // add "ClientDomain": "*" in appsetting.json for all allow
-            var ClientDomain = Configuration.GetValue<string>("ClientDomain");
-            services.AddCors(cfg => cfg.AddPolicy("ClientDomain", builder => builder.WithOrigins(ClientDomain)));
+            // ********************
+            // Setup CORS
+
+            var corsBuilder = new CorsPolicyBuilder();
+            corsBuilder.AllowAnyHeader();
+            corsBuilder.AllowAnyMethod();
+            corsBuilder.WithOrigins("http://localhost:4200"); // for a specific url. Don't add a forward slash on the end!
+            //corsBuilder.AllowAnyOrigin(); // For anyone access.
+            corsBuilder.AllowCredentials();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("SiteCorsPolicy", corsBuilder.Build());
+            });
             //
 
             services.AddMvc();
@@ -47,7 +56,7 @@ namespace API_CoreProject
                 app.UseDeveloperExceptionPage();
             }
             //
-            app.UseCors("ClientDomain");
+            app.UseCors("SiteCorsPolicy");
             //
             app.UseMvc();
         }
