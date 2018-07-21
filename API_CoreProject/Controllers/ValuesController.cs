@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using API_CoreProject.Models;
 using API_CoreProject.Models.CRUD_Angular;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +21,12 @@ namespace API_CoreProject.Controllers
         }
         // GET api/values
         [HttpGet]
-        public List<Technology> GetCompanies()
+        public async Task<List<Technology>> GetCompanies()
         {
             List<Technology> a = new List<Technology>();
             try
             {
-                var oCountry = mcontext.Companies.Include(x => x.Technologies).Where(c => c.ID == 1).FirstOrDefault();
+                var oCountry = await mcontext.Companies.Include(x => x.Technologies).Where(c => c.ID == 1).SingleOrDefaultAsync();
                 a = oCountry.Technologies.ToList();
             }
             catch (Exception)

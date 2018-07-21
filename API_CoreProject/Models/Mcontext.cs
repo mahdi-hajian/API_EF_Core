@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace API_CoreProject.Models
 {
     //Model First
-    //Scaffold-DbContext "Server=MAHDI-PC;User ID=sa;Password=1q./;Database=API_Core;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+    //Scaffold-DbContext "Server=MAHDI-PC\MAHDIDB;User ID=sa;Password=****;Database=mahdi;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
 
     public class Mcontext : DbContext
     {
